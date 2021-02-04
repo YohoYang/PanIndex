@@ -97,11 +97,11 @@ func index(c *gin.Context) {
 		log.Println(err)
 	}
 	log.Println("测试测试" + host)
-	log.Println("测试测试" + referer)
+	log.Println("测试测试" + referer.Host)
 	if referer != nil {
-		if referer == "www.sbsub.com" {
+		if referer.Host == "www.sbsub.com" {
 			
-		}else if referer != host {
+		}else if referer.Host != host {
 			c.HTML(http.StatusForbidden, "", "")
 			return
 		}
