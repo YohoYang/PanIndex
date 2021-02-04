@@ -92,24 +92,22 @@ func initTemplates() *template.Template {
 func index(c *gin.Context) {
 	//增加referer防盗链
 	host := c.Request.Host
-	referer := c.Request.Referer().Host
+	referer := url.Parse(c.Request.Referer()).Host
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer)
-	// if referer != nil {
-	// 	if (new URL(referer).hostname == 'www.sbsub.com') {
+	if referer != nil {
+		if referer == "www.sbsub.com" {
 			
-	// 	}else if (new URL(referer).hostname !== new URL(request.url).hostname) {
-	// 		return new Response("Hotlinking not allowed.", { status: 403 })
-	// 	}
-	// } else if (request.url == HOMEPAGE_URL) {
-	// 	return handleRequest(request)
-	// } else {
-	// 	if (HOTLINK_PROTECT_ALLOWEMPTYREFERER) {
-	// 		return handleRequest(request) //允许空的referer
-	// 	} else {
-	// 		return new Response("Hotlinking not allowed.", { status: 403 })
-	// 	}
-	// }
+		}else if referer != host {
+			c.HTML(http.403, "", "")
+			return
+		}
+	} else if request.url == "yoho-s3-test.herokuapp.com" {
+		
+	} else {
+		c.HTML(http.403, "", "")
+		return
+	}
 
 
 	
