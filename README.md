@@ -1,5 +1,5 @@
 # PanIndex
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/libsgh/PanIndex)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/YohoYang/PanIndex)
 
 简易的天翼云网盘目录列表
 - [x] cookie方式
