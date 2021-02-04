@@ -90,6 +90,29 @@ func initTemplates() *template.Template {
 }
 
 func index(c *gin.Context) {
+	//增加referer防盗链
+	host := c.Request.Host
+	referer := c.Request.Referer()
+	log.Println("测试测试" + host)
+	log.Println("测试测试" + referer)
+	// if referer != nil {
+	// 	if (new URL(referer).hostname == 'www.sbsub.com') {
+			
+	// 	}else if (new URL(referer).hostname !== new URL(request.url).hostname) {
+	// 		return new Response("Hotlinking not allowed.", { status: 403 })
+	// 	}
+	// } else if (request.url == HOMEPAGE_URL) {
+	// 	return handleRequest(request)
+	// } else {
+	// 	if (HOTLINK_PROTECT_ALLOWEMPTYREFERER) {
+	// 		return handleRequest(request) //允许空的referer
+	// 	} else {
+	// 		return new Response("Hotlinking not allowed.", { status: 403 })
+	// 	}
+	// }
+
+
+	
 	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
 	pwd := ""
 	pwdCookie, err := c.Request.Cookie("dir_pwd")
