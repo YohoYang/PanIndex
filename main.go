@@ -99,13 +99,11 @@ func index(c *gin.Context) {
 		if referer == "www.sbsub.com" {
 			
 		}else if referer != host {
-			c.HTML(http.403, "", "")
+			c.HTML(http.StatusForbidden, "", "")
 			return
 		}
-	} else if request.url == "yoho-s3-test.herokuapp.com" {
-		
-	} else {
-		c.HTML(http.403, "", "")
+	}  else {
+		c.HTML(http.StatusForbidden, "", "")
 		return
 	}
 
