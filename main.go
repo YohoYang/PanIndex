@@ -92,8 +92,7 @@ func initTemplates() *template.Template {
 func index(c *gin.Context) {
 	//增加referer防盗链
 	host := c.Request.Host
-	refererfull := c.Request.Referer()
-	referer, err := url.Parse(refererfull).Host
+	referer := c.Request.Referer().Get("Host")
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer)
 	if referer != nil {
