@@ -99,7 +99,7 @@ func index(c *gin.Context) {
 	}
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer.Host)
-	log.Println("测试测试" + c.Request.URL.String())
+	log.Println("测试测试" + c.Request.URL.RequestURI())
 
 	if referer != nil {
 		if referer.Host == "www.sbsub.com" {
@@ -107,19 +107,18 @@ func index(c *gin.Context) {
 		} else if referer.Host != host {
 			isForbidden = true;
 		}
-	} else if c.Request.URL.String() == "https://yoho-s3.herokuapp.com/" {
-		isForbidden = true;
+	} else if c.Request.URL.RequestURI() == "https://yoho-s3.herokuapp.com/" {
+		isForbidden = false;
 	} else {
 		isForbidden = true;
 	}
 	
-	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
-	log.Println("测试测试" + tmpFile)
 	if isForbidden == true {
-		c.HTML(http.StatusForbidden, tmpFile, make(map[string]interface{}))
+		c.HTML(http.StatusForbidden, "/index.html", make(map[string]interface{}))
 		return
 	}
 	
+	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
 	pwd := ""
 	pwdCookie, err := c.Request.Cookie("dir_pwd")
 	if err == nil {
