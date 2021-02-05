@@ -97,9 +97,10 @@ func index(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
+	reqFullUrl := host + c.Request.URL
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer.Host)
-	log.Println("测试测试" + c.Request.RequestURI())
+	log.Println("测试测试" + reqFullUrl)
 
 	if referer != nil {
 		if referer.Host == "www.sbsub.com" {
@@ -107,7 +108,7 @@ func index(c *gin.Context) {
 		} else if referer.Host != host {
 			isForbidden = true;
 		}
-	} else if c.Request.RequestURI() == "https://yoho-s3.herokuapp.com/" {
+	} else if reqFullUrl == "yoho-s3.herokuapp.com/" {
 		isForbidden = true;
 	} else {
 		isForbidden = true;
