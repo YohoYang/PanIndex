@@ -99,6 +99,7 @@ func index(c *gin.Context) {
 	}
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer.Host)
+	log.Println("测试测试" + c.Request.URL.String())
 
 	if referer != nil {
 		if referer.Host == "www.sbsub.com" {
@@ -107,7 +108,7 @@ func index(c *gin.Context) {
 			isForbidden = true;
 		}
 	} else if c.Request.URL.String() == "https://yoho-s3.herokuapp.com/" {
-		isForbidden = false;
+		isForbidden = true;
 	} else {
 		isForbidden = true;
 	}
