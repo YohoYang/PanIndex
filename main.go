@@ -91,7 +91,7 @@ func initTemplates() *template.Template {
 
 func index(c *gin.Context) {
 	//增加referer防盗链
-	isForbidden := false
+	isForbidden := true
 	host := c.Request.Host
 	referer, err := url.Parse(c.Request.Referer())
 	if err != nil {
@@ -100,19 +100,24 @@ func index(c *gin.Context) {
 	reqFullUrl := host + c.Request.URL.String()
 
 	if referer != nil {
-		if referer.Host == "www.sbsub.com" {
+		//如果referer不为空
+		if referer.Host == host { //站内referer自动通过免白名单
 			isForbidden = false;
-		} else if referer.Host != host {
-			isForbidden = true;
 		}
-	} else if reqFullUrl == "yoho-s1.herokuapp.com/" {
-		isForbidden = true;
+		if referer.Host == "www.xxxx.com" { //白名单，如果支持多个可能要改成循环
+			isForbidden = false;
+		} 
+	} else if reqFullUrl == "www.xxxx.com" { //允许直接访问首页，但不允许直接引用文件，首页地址，不太熟悉go不知道怎么获取带https://的完整url，应该可以用config.GloablConfig.HerokuAppUrl
+		isForbidden = false;
 	} else {
-		isForbidden = true;
+		//空referer
+		//if config.GloablConfig.AllowEmptyReferer == true { //是否判断允许空referer可以直接访问，我没加设置所以先注释了
+		//	isForbidden = false;
+		//}
 	}
 	
 	if isForbidden == true {
-		c.String(http.StatusForbidden, "403 Forbidden")
+		c.String(http.StatusForbidden, "403 Hotlink Forbidden")
 		return
 	}
 	
