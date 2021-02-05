@@ -105,7 +105,7 @@ func index(c *gin.Context) {
 		} else if referer.Host != host {
 			isForbidden = true;
 		}
-	} else if reqFullUrl == "yoho-s3.herokuapp.com/" {
+	} else if reqFullUrl == "yoho-s1.herokuapp.com/" {
 		isForbidden = true;
 	} else {
 		isForbidden = true;
