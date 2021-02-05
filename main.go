@@ -91,6 +91,7 @@ func initTemplates() *template.Template {
 
 func index(c *gin.Context) {
 	//增加referer防盗链
+	isForbidden := false
 	host := c.Request.Host
 	referer, err := url.Parse(c.Request.Referer())
 	if err != nil {
@@ -98,19 +99,23 @@ func index(c *gin.Context) {
 	}
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer.Host)
+
 	if referer != nil {
 		if referer.Host == "www.sbsub.com" {
-			
-		}else if referer.Host != host {
-			c.HTML(http.StatusForbidden, "", "")
-			return
+			isForbidden = false;
+		} else if referer.Host != host {
+			isForbidden = true;
 		}
-	}  else {
-		c.HTML(http.StatusForbidden, "", "")
-		return
+	} else if c.Request.URL == "https://yoho-s3.herokuapp.com/" {
+		isForbidden = false;
+	} else {
+		isForbidden = true;
 	}
 
-
+	if isForbidden == true {
+		c.HTML(http.StatusForbidden)
+		return
+	}
 	
 	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
 	pwd := ""
