@@ -107,8 +107,8 @@ func index(c *gin.Context) {
 		} else if referer.Host != host {
 			isForbidden = true;
 		}
-	} else if c.Request.URL.RequestURI() == "https://yoho-s3.herokuapp.com/" {
-		isForbidden = false;
+	} else if c.Request.RequestURI() == "https://yoho-s3.herokuapp.com/" {
+		isForbidden = true;
 	} else {
 		isForbidden = true;
 	}
