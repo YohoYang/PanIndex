@@ -98,9 +98,6 @@ func index(c *gin.Context) {
 		log.Println(err)
 	}
 	reqFullUrl := host + c.Request.URL.String()
-	log.Println("测试测试" + host)
-	log.Println("测试测试" + referer.Host)
-	log.Println("测试测试" + reqFullUrl)
 
 	if referer != nil {
 		if referer.Host == "www.sbsub.com" {
@@ -114,13 +111,12 @@ func index(c *gin.Context) {
 		isForbidden = true;
 	}
 	
-	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
-
 	if isForbidden == true {
-		c.HTML(http.StatusForbidden, tmpFile, make(map[string]interface{}))
+		c.String(http.StatusForbidden, "403 Forbidden")
 		return
 	}
 	
+	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
 	pwd := ""
 	pwdCookie, err := c.Request.Cookie("dir_pwd")
 	if err == nil {
