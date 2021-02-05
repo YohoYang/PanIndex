@@ -114,7 +114,7 @@ func index(c *gin.Context) {
 	}
 	
 	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
-	
+	log.Println("测试测试" + tmpFile)
 	if isForbidden == true {
 		c.HTML(http.StatusForbidden, tmpFile, make(map[string]interface{}))
 		return
