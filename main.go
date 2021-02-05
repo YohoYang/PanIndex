@@ -97,7 +97,7 @@ func index(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
-	reqFullUrl := host + c.Request.URL
+	reqFullUrl := host + c.Request.URL.String()
 	log.Println("测试测试" + host)
 	log.Println("测试测试" + referer.Host)
 	log.Println("测试测试" + reqFullUrl)
