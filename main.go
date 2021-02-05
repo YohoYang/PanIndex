@@ -107,7 +107,7 @@ func index(c *gin.Context) {
 		if referer.Host == "www.sbsub.com" { //白名单，如果支持多个可能要改成循环
 			isForbidden = false;
 		} 
-	} else if reqFullUrl == "yoho-s1.herokuapp.com" { //允许直接访问首页，但不允许直接引用文件，首页地址，不太熟悉go不知道怎么获取带https://的完整url，应该可以用config.GloablConfig.HerokuAppUrl
+	} else if reqFullUrl == "yoho-s1.herokuapp.com/" { //允许直接访问首页，但不允许直接引用文件，首页地址，不太熟悉go不知道怎么获取带https://的完整url，应该可以用config.GloablConfig.HerokuAppUrl
 		isForbidden = false;
 	} else {
 		//空referer
