@@ -91,7 +91,7 @@ func initTemplates() *template.Template {
 
 func index(c *gin.Context) {
 	//增加referer防盗链
-	isForbidden := true
+	isForbidden := false
 	host := c.Request.Host
 	referer, err := url.Parse(c.Request.Referer())
 	if err != nil {
