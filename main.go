@@ -91,7 +91,7 @@ func initTemplates() *template.Template {
 
 func index(c *gin.Context) {
 	//增加referer防盗链
-	isForbidden := false
+	isForbidden := true
 	host := c.Request.Host
 	referer, err := url.Parse(c.Request.Referer())
 	if err != nil {
@@ -121,11 +121,6 @@ func index(c *gin.Context) {
 		return
 	}
 	
-	c.Header("Access-Control-Allow-Origin", "*")
-	c.Header("Access-Control-Allow-Methods", "GET")
-	c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
-	c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type")
-	c.Header("Access-Control-Allow-Credentials", "true")
 	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
 	pwd := ""
 	pwdCookie, err := c.Request.Cookie("dir_pwd")
