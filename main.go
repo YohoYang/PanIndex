@@ -86,11 +86,8 @@ func main() {
 					isForbidden = false
 				} else if referer.Host != host && len(onlyReferer) > 0 {
 					//外部引用，并且设置了防盗链，需要进行判断
-					for _, rf := range onlyReferer.String() {
-						if rf == referer.Host {
-							isForbidden = false
-							break
-						}
+					if referer.Host == onlyReferer{
+						isForbidden = false
 					}
 				}
 			} else if reqFullUrl == "yoho-s1.herokuapp.com/" { 
