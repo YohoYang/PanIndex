@@ -70,7 +70,41 @@ func main() {
 		} else if method == "GET" && path == "/api/shareToDown" {
 			shareToDown(c)
 		} else {
-			index(c)
+			// index(c)
+			isForbidden := true
+			onlyReferer := "www.sbsub.com"
+			allowUrl := "yoho-s1.herokuapp.com/"
+			host := c.Request.Host
+			referer, err := url.Parse(c.Request.Referer())
+			if err != nil {
+				log.Println(err)
+			}
+			if referer != nil && referer.Host != "" {
+				if referer.Host == host {
+					//站内，自动通过
+					isForbidden = false
+				} else if referer.Host != host && len(onlyReferer) > 0 {
+					//外部引用，并且设置了防盗链，需要进行判断
+					for _, rf := range onlyReferer {
+						if rf == referer.Host {
+							isForbidden = false
+							break
+						}
+					}
+				}
+			} else if reqFullUrl == "yoho-s1.herokuapp.com/" { 
+				//允许直接访问首页，但不允许直接引用文件
+				isForbidden = false;
+			} else {
+				// 空referer
+				// isForbidden = false
+			}
+			if isForbidden == true {
+				c.String(http.StatusForbidden, "403 Hotlink Forbidden")
+				return
+			} else {
+				index(c)
+			}
 		}
 	})
 	jobs.Run()
@@ -90,37 +124,6 @@ func initTemplates() *template.Template {
 }
 
 func index(c *gin.Context) {
-	//增加referer防盗链
-	isForbidden := true;
-	host := c.Request.Host
-	referer, err := url.Parse(c.Request.Referer())
-	if err != nil {
-		log.Println(err)
-	}
-	reqFullUrl := host + c.Request.URL.String()
-
-	if referer != nil {
-		//如果referer不为空
-		if referer.Host == host { //站内referer自动通过免白名单
-			isForbidden = false;
-		}
-		if referer.Host == "www.sbsub.com" { //白名单，如果支持多个可能要改成循环
-			isForbidden = false;
-		} 
-	} else if reqFullUrl == "yoho-s1.herokuapp.com/" { //允许直接访问首页，但不允许直接引用文件，首页地址，不太熟悉go不知道怎么获取带https://的完整url，应该可以用config.GloablConfig.HerokuAppUrl
-		isForbidden = false;
-	} else {
-		//空referer
-		//if config.GloablConfig.AllowEmptyReferer == true { //是否判断允许空referer可以直接访问，我没加设置所以先注释了
-		//	isForbidden = false;
-		//}
-	}
-	
-	if isForbidden == true {
-		c.String(http.StatusForbidden, "403 Hotlink Forbidden")
-		return
-	}
-	
 	tmpFile := strings.Join([]string{"189/", "/index.html"}, config.GloablConfig.Theme)
 	pwd := ""
 	pwdCookie, err := c.Request.Cookie("dir_pwd")
