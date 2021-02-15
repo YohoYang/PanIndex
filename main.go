@@ -90,9 +90,9 @@ func main() {
 						isForbidden = false
 					}
 				}
-			} else if reqFullUrl == "yoho-s1.herokuapp.com/" { 
+			} else if reqFullUrl == allowUrl { 
 				//允许直接访问首页，但不允许直接引用文件
-				isForbidden = false;
+				// isForbidden = false;
 			} else {
 				// 空referer
 				// isForbidden = false
