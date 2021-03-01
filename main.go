@@ -5,6 +5,7 @@ import (
 	"PanIndex/config"
 	"PanIndex/entity"
 	"PanIndex/jobs"
+	"PanIndex/model"
 	"PanIndex/service"
 	"flag"
 	"fmt"
