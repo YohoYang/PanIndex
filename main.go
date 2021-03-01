@@ -106,7 +106,17 @@ func main() {
 		}
 	})
 	jobs.Run()
-	go jobs.StartInit()
+	cookie := Util.Cloud189Login(config.GloablConfig.User, config.GloablConfig.Password)
+	if cookie != "" {
+		log.Println("[程序启动]cookie更新 >> 登录成功")
+	} else {
+		log.Println("[程序启动]cookie更新 >> 登录失败，请检查用户名和密码是否正确")
+	}
+	model.SqliteDb.Model(&entity.FileNode{}).Update("`delete`", "1")
+	Util.Cloud189GetFiles(config.GloablConfig.RootId, config.GloablConfig.RootId)
+	model.SqliteDb.Delete(entity.FileNode{}, "`delete` = 1")
+	log.Println("[程序启动]目录缓存刷新 >> 刷新成功")
+	//go jobs.StartInit()
 	r.Run(fmt.Sprintf("%s:%d", config.GloablConfig.Host, config.GloablConfig.Port)) // 监听并在 0.0.0.0:8080 上启动服务
 
 }
