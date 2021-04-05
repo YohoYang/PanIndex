@@ -73,7 +73,7 @@ func main() {
 		} else {
 			// index(c)
 			isForbidden := true
-			onlyReferer := "www.sbsub.com"
+			onlyReferer := "dist.sbsub.com"
 			allowUrl := "yoho-s1.herokuapp.com/"
 			host := c.Request.Host
 			reqFullUrl := host + c.Request.URL.String()
