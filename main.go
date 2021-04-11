@@ -90,6 +90,9 @@ func main() {
 					if referer.Host == onlyReferer{
 						isForbidden = false
 					}
+					if referer.Host == "www.sbsub.com"{
+						isForbidden = false
+					}
 				}
 			} else if reqFullUrl == allowUrl { 
 				//允许直接访问首页，但不允许直接引用文件
